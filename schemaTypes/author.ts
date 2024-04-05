@@ -11,25 +11,16 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'name',
-        maxLength: 96,
-      },
-    }),
-    defineField({
-      name: 'image',
-      title: 'Image',
+      name: 'avatar',
+      title: 'Avatar',
       type: 'image',
       options: {
         hotspot: true,
       },
     }),
     defineField({
-      name: 'bio',
-      title: 'Bio',
+      name: 'description',
+      title: 'description',
       type: 'array',
       of: [
         {

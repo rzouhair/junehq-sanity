@@ -20,24 +20,18 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'author',
-      title: 'Author',
-      type: 'reference',
-      to: {type: 'author'},
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'author' }] }],
     }),
     defineField({
-      name: 'mainImage',
-      title: 'Main image',
+      name: 'headerImage',
+      title: 'Header image',
       type: 'image',
       options: {
         hotspot: true,
       },
-    }),
-    defineField({
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      of: [{type: 'reference', to: {type: 'category'}}],
     }),
     defineField({
       name: 'publishedAt',
@@ -49,17 +43,23 @@ export default defineType({
       title: 'Body',
       type: 'blockContent',
     }),
+    defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }], // Array of strings representing tags
+    }),
   ],
 
   preview: {
     select: {
       title: 'title',
-      author: 'author.name',
-      media: 'mainImage',
+      authors: `authors[].name`, // Access nested author names
+      media: 'headerImage',
     },
     prepare(selection) {
-      const {author} = selection
-      return {...selection, subtitle: author && `by ${author}`}
+      const authorNames = selection.authors?.map((author: any) => author.name).join(', ');
+      return { ...selection, subtitle: authorNames ? `by ${authorNames}` : '' };
     },
   },
 })
